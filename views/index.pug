@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title} by Tom Bignall
+
+  for book in books 
+    p book.title
