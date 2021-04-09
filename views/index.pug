@@ -1,8 +1,23 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title} by Tom Bignall
+  p
+    a(class="button" href="books/new") Create New Book 
+    //- Fix the href when I know where it is going!
 
-  for book in books 
-    p book.title
+  table
+    thead
+      tr 
+        th Title 
+        th Author 
+        th Genre 
+        th Year 
+ 
+        for book in books 
+          tr
+            td 
+              a(href=`books/${book.id}`) #{book.title}
+            td #{book.author} 
+            td #{book.genre}
+            td #{book.year}
+            //- This href adds the book id to the url, which we pick up in the route

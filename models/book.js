@@ -12,13 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
+  // Initialization of the Book. The allowNull, Validate were added for user friendliness
   Book.init({
     title: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Please enter a valid 'Title'"
+          msg: "Name is required"
         }
       }
     },
@@ -27,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Please enter a valid 'Author'"
+          msg: "Author is required"
         }
       }
     },

@@ -31,6 +31,8 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+// This file creates all the models as part of the database created using sequelize
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

@@ -1,0 +1,26 @@
+extends layout
+
+block content
+
+  include errors
+  
+  form(method="post")
+    p 
+      label(for="title") Title 
+      input(name="title" type="text" id="title" value=`${book ? book.title : ""}`)
+    p 
+      label(for="author") Author 
+      input(name="author" type="text" id="author" value=`${book ? book.author : ""}`)
+    p 
+      label(for="genre") Genre 
+      input(name="genre" type="text" id="genre" value=`${book ? book.genre : ""}`)
+    p 
+      label(for="year") Year 
+      input(name="year" type="text" id="year" value=`${book ? book.year : ""}`)
+    p
+      input(type="submit" value="Create New Book")
+    p
+      a(class="button" href="/") Cancel
+
+
+//- Ternary Operator used to check it there is a value in place - Support of the validator
