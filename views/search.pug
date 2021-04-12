@@ -1,0 +1,27 @@
+extends layout 
+
+block content 
+    if(books.length > 0) 
+        p Here are your results...
+
+        table
+            thead
+                tr 
+                    th Title 
+                    th Author 
+                    th Genre 
+                    th Year 
+                
+                for book in books 
+                    tr 
+                        td 
+                            a(href=`${book.id}`) #{book.title}  
+                        td #{book.author}  
+                        td #{book.genre}  
+                        td #{book.year}
+    
+    else 
+        p There are no books to display
+        
+
+    a(class="button" href="/") Home

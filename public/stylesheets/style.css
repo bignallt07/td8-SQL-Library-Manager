@@ -1,8 +1,51 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #eefbffa6; /* Also added */
 }
 
 a {
   color: #00B7FF;
+}
+
+/* ADDITIONAL CSS */
+
+table {
+  border: 1px solid #00B7FF;
+  padding: 10px;
+  background-color: rgb(238, 241, 245);
+}
+
+table a {
+    font-weight: bold;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#pagination {
+  padding: 0;
+}
+
+#pagination li {
+  float: left;
+  list-style-type: none;
+  margin-right: 10px;
+  border: 1px solid #00B7FF;
+}
+
+#pagination a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+}
+
+#pagination a:hover {
+  background-color: #00B7FF;
+  color: white;
 }

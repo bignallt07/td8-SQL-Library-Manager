@@ -2,8 +2,7 @@ extends layout
 
 block content
   p
-    a(class="button" href="books/new") Create New Book 
-    //- Fix the href when I know where it is going!
+    a(class="button" href=`${section ? "../new" : "books/new"}`) Create New Book 
 
   table
     thead
@@ -16,8 +15,36 @@ block content
         for book in books 
           tr
             td 
-              a(href=`books/${book.id}`) #{book.title}
+              if(section)
+                a(href=`../${book.id}`) #{book.title}
+              else
+                a(href=`books/${book.id}`) #{book.title}
             td #{book.author} 
             td #{book.genre}
             td #{book.year}
             //- This href adds the book id to the url, which we pick up in the route
+  
+  //- Extra Credit - Search bar
+  br
+  div.search
+    form(method="get" action=`${section ? "../search" : "books/search"}`)
+      label(for="search")
+        input#search(name="search" placeholder="Search for a book...")
+        button(type="submit") Search
+        
+  //- Use the GET method here so we can use the query string in the search GET ROUTE
+
+  //- Extra Credit - Pagination
+  - var page = 1;
+  h5 Pagination
+  ul#pagination.clearfix
+    while page <= totalPages
+      if(section)
+        li 
+          a(href=`./${page}`)= page++
+      else 
+        li 
+          a(href=`books/section/${page}`)= page++
+    
+
+  a(href="/") Back Home

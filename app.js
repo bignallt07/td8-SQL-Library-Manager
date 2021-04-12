@@ -34,7 +34,6 @@ app.use('/', indexRouter);
  * Error Middlewear
  */
 
-
 /**
  * 404 Handler
  * Description: This creates a new error, setting the status and message.

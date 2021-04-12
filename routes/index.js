@@ -4,6 +4,9 @@ var router = express.Router();
 // Importing the Book model
 const Book = require("../models").Book;
 
+// So we can use the operator property in sequelize
+const { Op } = require("sequelize");
+
 /**
  * ROUTES
  */
@@ -13,17 +16,65 @@ router.get('/', (req, res) => {
   res.redirect("books");
 });
 
-/* GET - /books - FULL LIST OF BOOKS */
+
+/**
+ * GET - /books - FULL LIST OF BOOKS
+ * Description - This collects ALL the books to determine the pagination number to display
+ *             - Collects the books, and renders only 8 to the page
+ */
 router.get('/books', async (req, res) => {
-  // Set up Pagination here
-  const books = await Book.findAll({order: [["title"]]});
-  // console.log(books.length) - ADD to the end of ^^ , offset: 3, limit: 10
-  res.render("index", { books, title: "Books" });
+  const pagination = await Book.findAll();
+  const books = await Book.findAll({order: [["title"]], limit: 8});
+  const totalPages = Math.ceil(pagination.length / 8);
+  res.render("index", { books, title: "Books", totalPages});
 });
+
+/**
+ * GET - /books/search
+ * Description - This uses the query string to filter through the database using operators 
+ * @returns - {page} - Returns the rendered search page
+ */ 
+
+router.get("/books/search", async (req, res) => {
+  const searchedWord = req.query.search;
+  const books = await Book.findAll({
+    where: {
+      [Op.or]: {
+        title: {
+          [Op.like]: `%${searchedWord}%`
+        },
+        author: {
+          [Op.like]: `%${searchedWord}%`
+        },
+        genre: {
+          [Op.like]: `%${searchedWord}%`
+        },
+        year: {
+          [Op.like]: `%${searchedWord}%`
+        },
+      }
+    }
+  });
+  res.render("search", {books, title: "Books"});
+});
+
+/**
+ * GET /books/section/:id 
+ * Description - Using req.params.id, this routes collects all the books to determine which 8 to show
+ *             - Line 71 has some Math in the offset to determine this.
+ * @returns - {rendered page} - This using a BOOLEAN to determine whether the url includes the word "section". - See index.pug to see this in action
+ */ 
+router.get("/books/section/:id", async (req, res) => {
+  const sectionId = req.params.id;
+  const pagination = await Book.findAll();
+  const totalPages = Math.ceil(pagination.length / 8);
+  const books = await Book.findAll({order: [["title"]], offset: (sectionId * 8) - 8, limit: 8});
+  res.render("index", { books, title: "Books", totalPages, section: true});
+});
+
 
 /* GET - Renders the new book form */
 router.get("/books/new", (req, res, next) => {
-  //const books = await Book.findAll();   // Probably need something else
   res.render("new-book", {title: "New Book"});
 });
 
@@ -31,7 +82,7 @@ router.get("/books/new", (req, res, next) => {
  * POST - /books/new
  * Description: 
  *        If NO ERROR: Creates a new book and stores to the database
- *        IF ERROR: Prebuilds the book, but displays the error on the page 
+ *        IF ERROR: Prebuilds the book, but displays the validation error on the page 
  **/
 router.post("/books/new", async (req, res) => {
   let book;
@@ -48,9 +99,11 @@ router.post("/books/new", async (req, res) => {
   }
 })
 
-/* GET - Shows the form with filled in details */
+/* GET - Shows the form with filled in details
+* Note: Checks for a book, if there is no book with that ID, it calls the GLOBAL error handler
+*/
 router.get("/books/:id", async (req, res, next) => {
-  const book = await Book.findByPk(req.params.id);    // This find the id in the url. See index note
+  const book = await Book.findByPk(req.params.id);  
   if (book) {
     res.render("update-book", {book, title: "Update Book"});
   } else {
@@ -74,6 +127,5 @@ router.post("/books/:id/delete", async (req, res, next) => {
   await book.destroy();
   res.redirect("/");
 });
-
 
 module.exports = router;
