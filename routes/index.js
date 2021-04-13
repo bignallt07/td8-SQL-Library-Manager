@@ -116,9 +116,19 @@ router.get("/books/:id", async (req, res, next) => {
 
 /* POST - Finds the book and allows you to update the book entry using req.body */
 router.post("/books/:id", async (req, res) => {
-  const book = await Book.findByPk(req.params.id);
-  await book.update(req.body);
-  res.redirect("/");
+  let book;
+  try {
+    const book = await Book.findByPk(req.params.id);
+    await book.update(req.body);
+    res.redirect("/");
+  } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        book = await Book.build(req.body);
+        res.render("update-book", {book, errors: error.errors, title: "Update Book"});
+      } else {
+        throw Error;
+      }
+  }
 });
 
 /* POST - Deletes a book from the database */

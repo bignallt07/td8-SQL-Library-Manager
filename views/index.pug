@@ -30,7 +30,7 @@ block content
     form(method="get" action=`${section ? "../search" : "books/search"}`)
       label(for="search")
         input#search(name="search" placeholder="Search for a book...")
-        button(type="submit") Search
+        button.searchBtn(type="submit") Search
         
   //- Use the GET method here so we can use the query string in the search GET ROUTE
 
