@@ -40,6 +40,7 @@ Sequelize Documentation
 ## Notes for developer
 Remove logging in config to see sql lines again
 Ternary operators used in pug files to check if the url includes "section"
+- Note for after: Refactor code to create an async handler for validation errors
 
 ## Notes (for reviewer)
 I am aiming for exceeds expectations
