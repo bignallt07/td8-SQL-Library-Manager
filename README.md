@@ -25,7 +25,7 @@ JavaScript - Using Node JS, Express, Pug, SQLite and SQL ORM Sequelize.
 5. Delete books from the database
 
 
-## CSS Changes (see stylesheets/style.css)
+## CSS Changes (see stylesheets/style.css - Changes from line 100)
 1. Background color change
 2. Changes the background color and padding of the results table
 3. I styled the pagination buttons
