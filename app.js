@@ -86,27 +86,3 @@ app.use((err, req, res, next) => {
 module.exports = app;
 
 
-// NOTE FOR REVIEWER
-/*
-I got quite confused with the error handling section of this. So, this was my first attempt following the instructions, if the one above is not quite right. Can you help me with this version. 
-
-app.use((err, req, res, next) => {
-  res.locals.err = err;
-  res.status(err.status);
-  if (err.status !== 404) {
-    // Set err.status to 500 if status not already defined
-    err.status = 500
-     // Set the Err.message to friendly message
-    err.message = "Sorry! There was an unexpected error on the server."
-    // Render Page not found - PASS Error, 
-    res.render("error", {err, title: "Server"});
-  } else {
-    // render error template with err passed as second param
-    // res.render("page-not-found", {err, title: "Page Not Found"})
-  }
-  // Log the error status and message to console
-  console.log(`${err.message} - Error Status: ${err.status}`);  
-});
-
-Hopefully, no need for this
- */
